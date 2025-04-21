@@ -24,13 +24,13 @@ jobs:
         dev:
         - -dev
         platform:
-        - ubuntu-latest
+        - ubuntu-20.04
         - macos-latest
-        - windows-latest
+        - windows-2022
         include:
         - python: pypy3.9
-          platform: ubuntu-latest
-        - platform: ubuntu-latest
+          platform: ubuntu-20.04
+        - platform: ubuntu-20.04
           python: "3.10"
           distutils: stdlib
     runs-on: ${{ matrix.platform }}
@@ -40,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: MatteoH2O1999/setup-python@v4
         with:
           python-version: ${{ matrix.python }}${{ matrix.dev }}
       - uses: actions/cache@v3
@@ -76,7 +76,7 @@ jobs:
     needs:
     - test
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - name: Decide whether the needed jobs succeeded or failed
@@ -90,7 +90,7 @@ jobs:
         python:
         - 39
         platform:
-        - windows-latest
+        - windows-2022
     runs-on: ${{ matrix.platform }}
     timeout-minutes: 75
     steps:
@@ -121,7 +121,7 @@ jobs:
     #    already tested via unit tests (or other tests not classified here as
     #    "integration")
     # With that in mind, the integration tests can run for a single setup
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 75
     steps:
       - uses: actions/checkout@v2
@@ -130,7 +130,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install build-essential gfortran libopenblas-dev
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: MatteoH2O1999/setup-python@v4
         with:
           # Use a release that is not very new but still have a long life:
           python-version: "3.8"
@@ -146,12 +146,12 @@ jobs:
     - test_cygwin
     - integration-test
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 75
     steps:
       - uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: MatteoH2O1999/setup-python@v4
         with:
           python-version: 3.11-dev
       - name: Install tox
